@@ -1,0 +1,52 @@
+
+LISÄÄ ASUNTO
+<form action="/add" method="POST">
+<p>
+Sijainti: <input type="text" name="location">
+</p>
+<p>
+Huonemäärä:
+<!-- Huonemäärän rajaus -->
+1h <input type="radio" name="roomcount" value="1">
+2h <input type="radio" name="roomcount" value="2">
+3h <input type="radio" name="roomcount" value="3">
+4h <input type="radio" name="roomcount" value="4">
+5h <input type="radio" name="roomcount" value="5">
+<!-- Huonemäärän rajaus -->
+</p>
+<p>
+<!-- Pinta-alan rajaus -->
+Pinta-ala: <input type="text" name="area" style="width: 50px;">
+<!-- Pinta-alan rajaus -->
+</p>
+<p>
+<!-- Rakennustyypin rajaus -->
+Rakennustyyppi:
+Kerrostalo <input type="radio" name="buildingtype" value="kerros">
+Omakotitalo <input type="radio" name="buildingtype" value="omakoti">
+Rivitalo <input type="radio" name="buildingtype" value="rivi">
+Luhtitalo <input type="radio" name="buildingtype" value="luhti">
+<!-- Rakennustyypin rajaus -->
+</p>
+<p>
+<!-- Vuokran suuruuden rajaus -->
+Vuokra: <input type="text" name="rent" style="width: 50px;">
+<!-- Vuokran suuruuden rajaus -->
+</p>
+<p>
+<!-- Kunnon rajaus -->
+Kunto: Erinomainen <input type="radio" name="condition" value="erinomainen">
+Hyvä <input type="radio" name="condition" value="hyvä">
+Kohtalainen <input type="radio" name="condition" value="kohtalainen">
+Huono <input type="radio" name="condition" value="huono">
+<!-- Kunnon rajaus -->
+</p>
+<p>
+Kuvaus:
+</p>
+<p>
+<textarea name="descr" rows="3" cols="50"></textarea>
+</p>
+<input type="submit" value="Lisää asunto">
+</form>
+

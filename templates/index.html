@@ -1,0 +1,78 @@
+{% if session.username %}
+<p>Olet kirjautunut nimellä {{ session.username }}</p>
+<form action="/new" method="GET">
+<input type="submit" value="Lisää asunto">
+</form>
+<a href="/logout">Kirjaudu ulos</a><br />
+<br>
+<form action="/result" method="GET">
+Sijainti: <input type="text" name="query">
+<br>
+<p>
+
+<!-- Huonemäärän rajaus -->
+1h <input type="checkbox" name="roomcount" value="1">
+2h <input type="checkbox" name="roomcount" value="2">
+3h <input type="checkbox" name="roomcount" value="3">
+4h <input type="checkbox" name="roomcount" value="4">
+5h <input type="checkbox" name="roomcount" value="5">
+<!-- Huonemäärän rajaus -->
+
+<!-- Pinta-alan rajaus -->
+Pinta-ala: min. <input type="text" name="min_area" style="width: 50px;">
+max. <input type="text" name="max_area" style="width: 50px;">
+<!-- Pinta-alan rajaus -->
+</p>
+<p>
+<!-- Rakennustyypin rajaus -->
+Rakennustyyppi: Kerrostalo <input type="checkbox" name="buildingtype" value="Kerrostalo">
+Omakotitalo <input type="checkbox" name="buildingtype" value="Omakotitalo">
+Rivitalo <input type="checkbox" name="buildingtype" value="Rivitalo">
+Luhtitalo <input type="checkbox" name="buildingtype" value="Luhtitalo">
+<!-- Rakennustyypin rajaus -->
+
+<!-- Vuokran suuruuden rajaus -->
+<!-- Vuokra: min. <input type="text" name="min_rent" style="width: 50px;"> -->
+<!-- max. <input type="text" name="max_rent" style="width: 50px;"> -->
+<!-- Vuokran suuruuden rajaus -->
+</p>
+<p>
+<!-- Kunnon rajaus -->
+Kunto: Erinomainen <input type="checkbox" name="condition" value="Erinomainen">
+Hyvä <input type="checkbox" name="condition" value="Hyvä">
+Kohtalainen <input type="checkbox" name="condition" value="Kohtalainen">
+Huono <input type="checkbox" name="condition" value="Huono">
+<!-- Kunnon rajaus -->
+</p>
+<input type="submit" value="Lähetä">
+</form>
+
+
+<p>Vuokrattavat asunnot:</p>
+
+Asuntojen määrä: {{ count }}
+<hr>
+{% for apartment in apartments %}
+<p>{{ apartment.area }}m², {{ apartment.rooms }}h,
+{{ apartment.building }}, {{ apartment.location }}, {{ apartment.rent }}€, Kunto: {{ apartment.condition }},
+"{{ apartment.descr }}" </p>
+<input type="submit" value="Hae kohdetta">
+<input type="submit" value="Lisää suosikkeihin">
+<hr>
+{% endfor %}
+
+
+
+{% else %}
+<p>VUOKRA-ASUNNOT</p>
+<form action="/login" method="POST">
+<p>Tunnus:<br>
+<input type="text" name="username"></p>
+<p>Salasana:<br>
+<input type="password" name="password"></p>
+<input type="submit" value="Kirjaudu">
+</form>
+<form action="/register" method="POST">
+<input type="submit" value="Rekisteröidy">
+</form>
+{% endif %}

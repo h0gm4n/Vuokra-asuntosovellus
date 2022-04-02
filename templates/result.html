@@ -1,0 +1,8 @@
+<hr>
+{% for apartment in results %}
+<p>{{ apartment.area }}m², {{ apartment.rooms }}h,
+{{ apartment.building }}, {{ apartment.location }}, {{ apartment.rent }}€, Kunto: {{ apartment.condition }},
+"{{ apartment.descr }}" </p>
+<hr>
+{% endfor %}
+<a href="/palaa">Palaa</a>

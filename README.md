@@ -18,7 +18,7 @@ kuvauksessa esiintyvien sanojen/merkkijonojen perusteella
 
 Tämänhetkiset ominaisuudet:
 
-- Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen
+- Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen (HUOM! käyttäjätunnuksen ja salasanan oltava vähintään 6 merkkiä pitkät!)
 - Käyttäjä näkee etusivulla tarjolla olevat asunnot lisäysjärjestyksessä
 - Käyttäjä (tässä vaiheessa ei vielä jaoteltuja ylläpitäjiä ja normikäyttäjiä) voi lisätä tai poistaa vuokrattavia sekä määrittää asunnoista näytettävät tiedot
 - Käyttäjä voi etsiä asuntoja pinta-alan, huonemäärän, rakennustyypin, sijainnin (tässä vaiheessa vain kaupungin), vuokran suuruuden sekä kunnon perusteella

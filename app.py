@@ -40,7 +40,7 @@ def order_cheap():
 def login():
     username = request.form["username"]
     password = request.form["password"]
-    
+
     if "admin" in username:
         sql = "SELECT id, password FROM admins WHERE username=:username"
     else:

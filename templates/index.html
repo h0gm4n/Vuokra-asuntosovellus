@@ -3,10 +3,21 @@
 <form action="/new" method="GET">
 <input type="submit" value="Lisää asunto">
 </form>
+
+{% if "admin" in session.username %}
+<br>
+<a href="/delete">Poista asuntoja</a><br />
+{% else %}
+<br>
+<a href="/appandfav">Haetut ja suosikit</a><br />
+{% endif %}
+<br>
 <a href="/logout">Kirjaudu ulos</a><br />
 <br>
+<br>
+<p>Vapaahaku:</p>
 <form action="/result" method="GET">
-Sijainti: <input type="text" name="query">
+Kaupunki: <input type="text" name="query">
 <br>
 <p>
 
@@ -30,11 +41,6 @@ Omakotitalo <input type="checkbox" name="buildingtype" value="Omakotitalo">
 Rivitalo <input type="checkbox" name="buildingtype" value="Rivitalo">
 Luhtitalo <input type="checkbox" name="buildingtype" value="Luhtitalo">
 <!-- Rakennustyypin rajaus -->
-
-<!-- Vuokran suuruuden rajaus -->
-<!-- Vuokra: min. <input type="text" name="min_rent" style="width: 50px;"> -->
-<!-- max. <input type="text" name="max_rent" style="width: 50px;"> -->
-<!-- Vuokran suuruuden rajaus -->
 </p>
 <p>
 <!-- Kunnon rajaus -->
@@ -46,7 +52,38 @@ Huono <input type="checkbox" name="condition" value="Huono">
 </p>
 <input type="submit" value="Lähetä">
 </form>
+<hr>
+Järjestä asunnot:
+<p>
+<form action="/order" method="POST">
+Vuokra: halvin ensin <input type="radio" name="order" value="cheap">
+Vuokra: kallein ensin <input type="radio" name="order" value="expensive">
+Pinta-ala: pienin ensin <input type="radio" name="order" value="small">
+Pinta-ala: suurin ensin <input type="radio" name="order" value="big">
+</p>
+<input type="submit" value="Järjestä">
+<hr>
+</form>
 
+{% if "admin" not in session.username %}
+
+<p>Vuokrattavat asunnot:</p>
+
+<form action="/add_applied_or_fave" method="POST">
+Asuntojen määrä: {{ count }}
+<p><input type="submit" value="Hae valittuihin / Lisää valitut suosikkeihin"></p>
+{% for apartment in apartments %}
+<p>{{ apartment.area }}m², {{ apartment.rooms }}h,
+{{ apartment.building }}, {{ apartment.location }}, {{ apartment.rent }}€, Kunto: {{ apartment.condition }},
+"{{ apartment.descr }}" </p>
+
+Hae kohdetta <input type="checkbox" name="apply" value="{{ apartment.id }}">
+Lisää suosikkeihin <input type="checkbox" name="fave" value="{{ apartment.id }}">
+
+<hr>
+{% endfor %}
+</form>
+{% else %}
 
 <p>Vuokrattavat asunnot:</p>
 
@@ -56,14 +93,20 @@ Asuntojen määrä: {{ count }}
 <p>{{ apartment.area }}m², {{ apartment.rooms }}h,
 {{ apartment.building }}, {{ apartment.location }}, {{ apartment.rent }}€, Kunto: {{ apartment.condition }},
 "{{ apartment.descr }}" </p>
-<input type="submit" value="Hae kohdetta">
-<input type="submit" value="Lisää suosikkeihin">
 <hr>
+
 {% endfor %}
+{% endif %}
 
 
 
 {% else %}
+
+{% if no_user %}
+Virheellinen käyttäjätunnus tai salasana!
+{% endif %}
+<br>
+<br>
 <p>VUOKRA-ASUNNOT</p>
 <form action="/login" method="POST">
 <p>Tunnus:<br>

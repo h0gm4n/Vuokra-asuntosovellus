@@ -1,0 +1,17 @@
+<form action="/add_applied_or_fave" method="POST">
+{% if "admin" not in session.username %}
+<p><input type="submit" value="Hae valittuihin / Lisää valitut suosikkeihin"></p>
+{% endif %}
+<hr>
+{% for apartment in results %}
+<p>{{ apartment.area }}m², {{ apartment.rooms }}h,
+{{ apartment.building }}, {{ apartment.location }}, {{ apartment.rent }}€, Kunto: {{ apartment.condition }},
+"{{ apartment.descr }}" </p>
+{% if "admin" not in session.username %}
+Hae kohdetta <input type="checkbox" name="apply" value="{{ apartment.id }}">
+Lisää suosikkeihin <input type="checkbox" name="fave" value="{{ apartment.id }}">
+{% endif %}
+<hr>
+{% endfor %}
+</form>
+<a href="/palaa">Palaa</a>

@@ -1,3 +1,21 @@
+{% if name_taken %}
+Käyttäjätunnus varattu!
+{% endif %}
+<br>
+{% if pws_not_equal %}
+Salasanat ei täsmää!
+{% endif %}
+{% if too_long_user %}
+Käyttäjätunnus liian pitkä!
+{% elif too_short_user %}
+Käyttäjätunnus liian lyhyt!
+{% endif %}
+<br>
+{% if too_long_pass %}
+Salasana liian pitkä!
+{% elif too_short_pass %}
+Salasana liian lyhyt!
+{% endif %}
 
 <form action="/create" method="POST">
 <p>REKISTERÖINTI:</p>
@@ -5,7 +23,10 @@
 <input type="text" name="username"></p>
 <p>Salasana:<br>
 <input type="password" name="password"></p>
+<p>Salasana uudelleen:<br>
+<input type="password" name="password_again"></p>
 <input type="submit" value="Rekisteröidy">
+<p>Huom. tunnuksen ja salasanan oltava vähintään 6 ja enintään 15 merkkiä!</p>
 <a href="/palaa">Palaa</a>
 </form>
 

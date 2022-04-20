@@ -1,0 +1,13 @@
+<form action="/delete_apartment" method="POST">
+<hr>
+{% for apartment in apartments %}
+<p>{{ apartment.area }}m², {{ apartment.rooms }}h,
+{{ apartment.building }}, {{ apartment.location }}, {{ apartment.rent }}€, Kunto: {{ apartment.condition }},
+"{{ apartment.descr }}"
+<input type="checkbox" name="apartment" value="{{ apartment.id }}">
+</p>
+<hr>
+{% endfor %}
+<input type="submit" value="Poista valitut">
+</form>
+<a href="/palaa">Palaa</a>

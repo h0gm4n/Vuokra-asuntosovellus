@@ -1,0 +1,41 @@
+<form action="/manipulate_applied_and_faved" method="POST">
+{% if a_resultslen>0 or f_resultslen>0 %}
+<p><input type="submit" value="Poista valitut"></p>
+{% endif %}
+{% if a_resultslen>=1 %}
+<br>
+<br>
+Haetut asunnot:
+<p><input type="submit" value="Lisää valitut suosikkeihin"></p>
+{% for apartment in a_results %}
+<p>{{ apartment.area }}m², {{ apartment.rooms }}h,
+{{ apartment.building }}, {{ apartment.location }}, {{ apartment.rent }}€, Kunto: {{ apartment.condition }},
+"{{ apartment.descr }}" </p>
+Poista <input type="checkbox" name="delete_applied" value="{{ apartment.id }}">
+Lisää suosikkeihin <input type="checkbox" name="fave" value="{{ apartment.id }}">
+<hr>
+{% endfor %}
+{% else %}
+Ei haettuja asuntoja
+<br>
+{% endif %}
+<br>
+<br>
+Suosikit:
+{% if f_resultslen >= 1 %}
+<p><input type="submit" value="Hae valittuihin"></p>
+{% for apartment in f_results %}
+<p>{{ apartment.area }}m², {{ apartment.rooms }}h,
+{{ apartment.building }}, {{ apartment.location }}, {{ apartment.rent }}€, Kunto: {{ apartment.condition }},
+"{{ apartment.descr }}" </p>
+Poista <input type="checkbox" name="delete_faved" value="{{ apartment.id }}">
+Hae kohdetta <input type="checkbox" name="apply" value="{{ apartment.id }}">
+<hr>
+{% endfor %}
+{% else %}
+Ei suosikkeja
+<br>
+{% endif %}
+<br>
+</form>
+<a href="/palaa">Palaa</a>

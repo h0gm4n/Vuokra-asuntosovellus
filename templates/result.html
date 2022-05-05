@@ -1,5 +1,16 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="/static/first.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<body>
+<div class="header">
+  <h1>VUOKRA-ASUNNOT</h1>
+</div>
+<hr>
+<div class="content">
 {% if resultslen>=1 %}
 <form action="/add_applied_or_fave" method="POST">
+  Asuntoja löytyi: {{ resultslen }}
 {% if "admin" not in session.username %}
 <p><input type="submit" value="Hae valittuihin / Lisää valitut suosikkeihin"></p>
 {% endif %}
@@ -14,6 +25,7 @@ Lisää suosikkeihin <input type="checkbox" name="fave" value="{{ apartment.id }
 {% endif %}
 <hr>
 {% endfor %}
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 {% else %}
 Ei tuloksia hakutermeillä
@@ -21,4 +33,6 @@ Ei tuloksia hakutermeillä
 <br>
 <br>
 {% endif %}
-<a href="/palaa">Palaa</a>
+<a href="/returning">Palaa</a>
+</div>
+</body>

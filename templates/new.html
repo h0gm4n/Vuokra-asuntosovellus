@@ -1,5 +1,27 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="/static/first.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
+<body>
+<div class="header">
+  <h1>VUOKRA-ASUNNOT</h1>
+</div>
+<hr>
+
+<div class="content">
 LISÄÄ ASUNTO
+  {% if area_too_small %}
+  <h4>Neliömäärän oltava yli 0m²!</h4>
+  {% endif %}
+  {% if rent_too_small %}
+  <h4>Vuokran oltava 0€ tai suurempi!</h4>
+  {% endif %}
+  {% if no_location %}
+  <h4>Lisää kaupunki!</h4>
+  {% endif %}
+  {% if fill_all %}
+  <h4>Valitse jotakin kaikista kohdista!</h4>
+  {% endif %}
 <form action="/add" method="POST">
 <p>
 Sijainti: <input type="text" name="location">
@@ -48,5 +70,8 @@ Kuvaus:
 <textarea name="descr" rows="3" cols="50"></textarea>
 </p>
 <input type="submit" value="Lisää asunto">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
-<a href="/palaa">Palaa</a>
+<a href="/returning">Palaa</a>
+</div>
+</body>

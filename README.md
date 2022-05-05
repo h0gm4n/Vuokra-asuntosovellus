@@ -16,19 +16,17 @@ Ideana toteuttaa vuokra-asuntojen välittämiseen perustuva verkkopalvelu:
 kuvauksessa esiintyvien sanojen/merkkijonojen perusteella
 - Käyttäjä voi järjestää asunnot vuokran suuruuden tai koon perusteella"
 
-Tämänhetkiset ominaisuudet:
+Lopulliset ominaisuudet:
 
-- Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen (Käyttäjätunnuksen ja salasanan oltava vähintään 6 merkkiä pitkät!)
+- Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen
 - Käyttäjä näkee etusivulla tarjolla olevat asunnot lisäysjärjestyksessä
 - Käyttäjä voi lisätä asunnon suosikkeihin ja/tai lähettää siihen hakemuksen
 - Käyttäjä voi poistaa asunnon suosikeista ja/tai haetuista
 - Käyttäjä voi lisätä vuokrattavia asuntoja sivustolle (poikkeaa alkuperäisestä suunnitelmasta siten, että ylläpitäjän lisäksi tämä on mahdollista myös peruskäyttäjällä)
 - Käyttäjä voi etsiä asuntoja pinta-alan, huonemäärän, rakennustyypin, sijainnin (kaupungin), vuokran suuruuden sekä kunnon perusteella
 - Käyttäjä voi järjestää asunnot vuokran suuruuden tai koon perusteella
+- Käyttäjä näkee etusivulla suosituimman (eli eniten suosikkeihin lisätyn) asunnon
 - Ylläpitäjä voi poistaa vuokrattavia asuntoja
-
-Kohta "Ylläpitäjä voi tarvittaessa lisätä, poistaa..." osoittautui projektin miellekkyttä
-ajatellen turhaksi, joten se jää toteuttamatta. Lisäksi sijaintien tarkkuus jää kaupunkitasolle.
-Muilta osin projekti on saavuttanut kaikki alkuperäiset perustoiminnallisuuden tavoitteet.
+- Ylläpitäjä näkee listattuna ylläpitäjien käyttäjänimet etusivulla
 
 Sovellusta voi testata Herokussa osoitteessa https://vuokra-asuntosovellus.herokuapp.com

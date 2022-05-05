@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="/static/first.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<body>
+<div class="header">
+  <h1>VUOKRA-ASUNNOT</h1>
+</div>
+<hr>
+<div class="content">
 <form action="/manipulate_applied_and_faved" method="POST">
 {% if a_resultslen>0 or f_resultslen>0 %}
 <p><input type="submit" value="Poista valitut"></p>
@@ -37,5 +47,8 @@ Ei suosikkeja
 <br>
 {% endif %}
 <br>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
-<a href="/palaa">Palaa</a>
+<a href="/returning">Palaa</a>
+</div>
+</body>

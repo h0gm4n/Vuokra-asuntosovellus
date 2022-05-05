@@ -1,10 +1,31 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="/static/first.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<body>
+<div class="header">
+  <h1>VUOKRA-ASUNNOT</h1>
+</div>
+
+<hr>
+
+<div class="content">
 {% if session.username %}
 <p>Olet kirjautunut nimellä {{ session.username }}</p>
 <form action="/new" method="GET">
 <input type="submit" value="Lisää asunto">
 </form>
+<br>
 
 {% if "admin" in session.username %}
+Ylläpitäjät:
+<div style="height:120px;width:120px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
+{% for admin in admins %}
+{{ admin.username }}
+<br>
+{% endfor %}
+</div>
+
 <br>
 <a href="/delete">Poista asuntoja</a><br />
 {% else %}
@@ -15,9 +36,9 @@
 <a href="/logout">Kirjaudu ulos</a><br />
 <br>
 <br>
-<p>Vapaahaku:</p>
+<h3>Vapaahaku:</h3>
 <form action="/result" method="GET">
-Kaupunki: <input type="text" name="query">
+Sijainti: <input type="text" name="query">
 <br>
 <p>
 
@@ -53,7 +74,7 @@ Huono <input type="checkbox" name="condition" value="Huono">
 <input type="submit" value="Lähetä">
 </form>
 <hr>
-Järjestä asunnot:
+  <h3>Järjestä asunnot:</h3>
 <p>
 <form action="/order" method="POST">
 Vuokra: halvin ensin <input type="radio" name="order" value="cheap">
@@ -63,11 +84,23 @@ Pinta-ala: suurin ensin <input type="radio" name="order" value="big">
 </p>
 <input type="submit" value="Järjestä">
 <hr>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 
 {% if "admin" not in session.username %}
 
-<p>Vuokrattavat asunnot:</p>
+  <h3>Suosituin asunto:</h3>
+  {% for apartment in top_apartments %}
+  <p>{{ apartment.area }}m², {{ apartment.rooms }}h,
+{{ apartment.building }}, {{ apartment.location }}, {{ apartment.rent }}€, Kunto: {{ apartment.condition }},
+"{{ apartment.descr }}"</p>
+
+  Hae kohdetta <input type="checkbox" name="apply" value="{{ apartment.id }}">
+  Lisää suosikkeihin <input type="checkbox" name="fave" value="{{ apartment.id }}">
+  <hr>
+  {% endfor %}
+
+<h3>Vuokrattavat asunnot:</h3>
 
 <form action="/add_applied_or_fave" method="POST">
 Asuntojen määrä: {{ count }}
@@ -82,6 +115,7 @@ Lisää suosikkeihin <input type="checkbox" name="fave" value="{{ apartment.id }
 
 <hr>
 {% endfor %}
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
 {% else %}
 
@@ -96,9 +130,10 @@ Asuntojen määrä: {{ count }}
 <hr>
 
 {% endfor %}
+</div>
+</body>
+
 {% endif %}
-
-
 
 {% else %}
 
@@ -106,8 +141,7 @@ Asuntojen määrä: {{ count }}
 Virheellinen käyttäjätunnus tai salasana!
 {% endif %}
 <br>
-<br>
-<p>VUOKRA-ASUNNOT</p>
+<body>
 <form action="/login" method="POST">
 <p>Tunnus:<br>
 <input type="text" name="username"></p>
@@ -115,7 +149,9 @@ Virheellinen käyttäjätunnus tai salasana!
 <input type="password" name="password"></p>
 <input type="submit" value="Kirjaudu">
 </form>
+<br>
 <form action="/register" method="POST">
 <input type="submit" value="Rekisteröidy">
 </form>
+</body>
 {% endif %}

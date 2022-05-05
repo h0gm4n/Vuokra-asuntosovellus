@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="/static/first.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<body>
+<div class="header">
+  <h1>VUOKRA-ASUNNOT</h1>
+</div>
+<hr>
+<div class="content">
 {% if name_taken %}
 Käyttäjätunnus varattu!
 {% endif %}
@@ -27,6 +37,8 @@ Salasana liian lyhyt!
 <input type="password" name="password_again"></p>
 <input type="submit" value="Rekisteröidy">
 <p>Huom. tunnuksen ja salasanan oltava vähintään 6 ja enintään 15 merkkiä!</p>
-<a href="/palaa">Palaa</a>
+<a href="/returning">Palaa</a>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </form>
-
+</div>
+</body>

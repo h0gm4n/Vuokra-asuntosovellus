@@ -27,7 +27,10 @@ Ylläpitäjät:
 </div>
 
 <br>
-<a href="/delete">Poista asuntoja</a><br />
+  <form action="/delete" method="POST">
+    <input type="submit" value="Poista asuntoja">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+  </form>
 {% else %}
 <br>
 <a href="/appandfav">Haetut ja suosikit</a><br />

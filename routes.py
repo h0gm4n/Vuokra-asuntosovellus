@@ -1,9 +1,9 @@
 from app import app
 from flask import redirect, render_template, request, session, abort
-from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash, generate_password_hash
 import secrets
 from db import db
+
 
 @app.route("/")
 def index():
@@ -19,7 +19,6 @@ def index():
     top_apartments = top_apartments_result.fetchall()
     return render_template("index.html", count=len(apartments), apartments=apartments, admins=admins,
                            top_apartments=top_apartments)
-
 
 @app.route("/order", methods=["POST", "GET"])
 def order_cheap():
@@ -48,8 +47,7 @@ def order_cheap():
     except:
         return redirect("/")
 
-
-@app.route("/login", methods=["POST", "GET"])
+@app.route("/login",methods=["POST", "GET"])
 def login():
     username = request.form["username"]
     password = request.form["password"]
@@ -75,13 +73,11 @@ def login():
             no_user = True
             return render_template("index.html", no_user=no_user)
 
-
 @app.route("/register", methods=["POST", "GET"])
 def register():
     return render_template("register.html")
 
-
-@app.route("/create", methods=["POST", "GET"])
+@app.route("/create",methods=["POST", "GET"])
 def create():
     name_taken = False
     too_long_user = False
@@ -110,17 +106,17 @@ def create():
     if admin:
         name_taken = True
 
-    if 15 < len(username) and not name_taken and not pws_not_equal:
+    if 15<len(username) and not name_taken and not pws_not_equal:
         too_long_user = True
-    elif 6 > len(username) and not name_taken and not pws_not_equal:
+    elif 6>len(username) and not name_taken and not pws_not_equal:
         too_short_user = True
 
-    if 15 < len(password) and not name_taken and not pws_not_equal:
+    if 15<len(password) and not name_taken and not pws_not_equal:
         too_long_pass = True
-    elif 6 > len(password) and not name_taken and not pws_not_equal:
+    elif 6>len(password) and not name_taken and not pws_not_equal:
         too_short_pass = True
 
-    if 15 >= len(username) >= 6 and 15 >= len(password) >= 6 and not name_taken and not pws_not_equal:
+    if 15>=len(username)>=6 and 15>=len(password)>=6 and not name_taken and not pws_not_equal:
         hash_value = generate_password_hash(password)
         if "admin" not in username:
             sql = "INSERT INTO users (username, password) VALUES (:username, :password)"
@@ -136,14 +132,13 @@ def create():
                            too_short_user=too_short_user, too_long_pass=too_long_pass,
                            too_short_pass=too_short_pass, pws_not_equal=pws_not_equal)
 
-
 @app.route("/returning")
 def returning():
     return redirect("/")
 
-
 @app.route("/result")
 def result():
+
     query = request.args["query"]
     min_area = request.args["min_area"]
     max_area = request.args["max_area"]
@@ -151,7 +146,7 @@ def result():
     buildingtype = request.args.getlist("buildingtype")
     condition = request.args.getlist("condition")
     if query == "" and min_area == "" and max_area == "" and \
-            len(roomcount) == 0 and len(buildingtype) == 0 and len(condition) == 0:
+            len(roomcount)==0 and len(buildingtype)==0 and len(condition)==0:
         sql = "SELECT id, area, rooms, building, location, rent, condition, descr FROM apartments"
     else:
         sql = "SELECT id, area, rooms, building, location, rent, condition, descr FROM apartments WHERE "
@@ -176,79 +171,77 @@ def result():
     a = True
     b = 0
     for i in roomcount:
-        if len(roomcount) == 1:
+        if len(roomcount)==1:
             if are_c:
-                sql += f"AND rooms={i}"
+                sql+=f"AND rooms={i}"
             else:
-                sql += f"rooms={i} "
+                sql+=f"rooms={i} "
                 are_c = True
         elif a:
             if are_c:
-                sql += f"AND (rooms={i} "
+                sql+=f"AND (rooms={i} "
             else:
-                sql += f"(rooms ={i} "
+                sql+=f"(rooms ={i} "
                 are_c = True
             a = False
             b += 1
         else:
-            sql += f"OR rooms={i}"
+            sql+=f"OR rooms={i}"
             b += 1
-        if b == len(roomcount):
-            sql += ") "
+        if b==len(roomcount):
+            sql+=") "
 
     a = True
     b = 0
     for i in buildingtype:
-        if len(buildingtype) == 1:
+        if len(buildingtype)==1:
             if are_c:
-                sql += f"AND building='{i}'"
+                sql+=f"AND building='{i}'"
             else:
-                sql += f"building='{i}' "
+                sql+=f"building='{i}' "
                 are_c = True
         elif a:
             if are_c:
-                sql += f"AND (building='{i}' "
+                sql+=f"AND (building='{i}' "
             else:
-                sql += f"(building='{i}' "
+                sql+=f"(building='{i}' "
                 are_c = True
             a = False
             b += 1
         else:
-            sql += f"OR building='{i}'"
+            sql+=f"OR building='{i}'"
             b += 1
-        if b == len(buildingtype):
-            sql += ") "
+        if b==len(buildingtype):
+            sql+=") "
 
     for i in condition:
-        if len(condition) == 1:
+        if len(condition)==1:
             if are_c:
-                sql += f"AND condition='{i}'"
+                sql+=f"AND condition='{i}'"
             else:
-                sql += f"condition='{i}' "
+                sql+=f"condition='{i}' "
                 are_c = True
         elif a:
             if are_c:
-                sql += f"AND (condition='{i}' "
+                sql+=f"AND (condition='{i}' "
             else:
-                sql += f"(condition='{i}' "
+                sql+=f"(condition='{i}' "
                 are_c = True
             a = False
             b += 1
         else:
-            sql += f"OR condition='{i}'"
+            sql+=f"OR condition='{i}'"
             b += 1
-        if b == len(condition):
-            sql += ") "
+        if b==len(condition):
+            sql+=") "
 
     result = db.session.execute(sql, {"query": query, "min_area": min_area, "max_area": max_area})
     results = result.fetchall()
     return render_template("result.html", resultslen=len(results), results=results)
 
-
 @app.route("/new")
 def new():
     return render_template("new.html")
-
 
 @app.route("/add", methods=["POST"])
 def add():
@@ -262,7 +255,7 @@ def add():
         rent = request.form["rent"]
         condition = request.form["condition"]
         descr = request.form["descr"]
-        area_too_small, no_location, rent_too_small = \
+        area_too_small, no_location, rent_too_small= \
             False, False, False
         if int(area) <= 0:
             area_too_small = True
@@ -275,15 +268,13 @@ def add():
                                    no_location=no_location)
         sql = "INSERT INTO apartments (area, rooms, building, location, rent, condition, descr)" \
               " VALUES (:area, :roomcount, :buildingtype, :location, :rent, :condition, :descr);"
-        db.session.execute(sql,
-                           {"area": area, "roomcount": roomcount, "buildingtype": buildingtype, "location": location,
-                            "rent": rent, "condition": condition, "descr": descr})
+        db.session.execute(sql, {"area": area, "roomcount": roomcount, "buildingtype": buildingtype, "location": location,
+                                 "rent": rent, "condition": condition, "descr": descr})
         db.session.commit()
         return redirect("/")
     except:
         fill_all = True
         return render_template("new.html", fill_all=fill_all)
-
 
 @app.route("/add_applied_or_fave", methods=["GET", "POST"])
 def add_applied_or_fave():
@@ -315,6 +306,7 @@ def add_applied_or_fave():
             db.session.execute(sql)
             db.session.commit()
 
+
     return redirect("/")
 
 
@@ -340,7 +332,7 @@ def appandfav():
     a_results = []
     f_results = []
 
-    if len(applied_results) >= 1:
+    if len(applied_results)>=1:
         for i in applied_results:
             b = str(i).strip("(),")
             if a_sql_const:
@@ -352,7 +344,8 @@ def appandfav():
             a_result = db.session.execute(a_sql)
             a_results = a_result.fetchall()
 
-    if len(faved_results) >= 1:
+
+    if len(faved_results)>=1:
         for i in faved_results:
             b = str(i).strip("(),")
             if f_sql_const:
@@ -373,11 +366,9 @@ def appandfav():
 def delete():
     if session["csrf_token"] != request.form["csrf_token"]:
         abort(403)
-    result = db.session.execute(
-        "SELECT id, area, rooms, building, location, rent, condition, descr FROM apartments ORDER BY id DESC")
+    result = db.session.execute("SELECT id, area, rooms, building, location, rent, condition, descr FROM apartments ORDER BY id DESC")
     apartments = result.fetchall()
     return render_template("delete.html", apartments=apartments)
-
 
 @app.route("/delete_apartment", methods=["GET", "POST"])
 def delete_apartment():
@@ -404,7 +395,6 @@ def delete_apartment():
     db.session.commit()
     return redirect("/")
 
-
 @app.route("/manipulate_applied_and_faved", methods=["GET", "POST"])
 def manipulate_applied_and_faved():
     username = session["username"]
@@ -426,7 +416,7 @@ def manipulate_applied_and_faved():
             continue
         sql_del_app += f" OR apartment_id={i}"
 
-    if len(delete_applied) > 0:
+    if len(delete_applied)>0:
         db.session.execute(sql_del_app)
         db.session.commit()
 
@@ -449,7 +439,7 @@ def manipulate_applied_and_faved():
             continue
         sql_del_fav += f" OR apartment_id={i}"
 
-    if len(delete_faved) > 0:
+    if len(delete_faved)>0:
         db.session.execute(sql_del_fav)
         db.session.commit()
 
@@ -470,3 +460,4 @@ def logout():
     del session["username"]
     del session["csrf_token"]
     return redirect("/")
+

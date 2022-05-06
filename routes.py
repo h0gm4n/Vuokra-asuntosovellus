@@ -411,7 +411,7 @@ def manipulate_applied_and_faved():
     sql_del_app = ""
     for i in delete_applied:
         if first:
-            sql_del_app = f"DELETE FROM applied WHERE user_id='{user_id}' and apartment_id={i}"
+            sql_del_app = f"DELETE FROM applied WHERE user_id={user_id} and apartment_id={i}"
             first = False
             continue
         sql_del_app += f" OR apartment_id={i}"
@@ -421,10 +421,10 @@ def manipulate_applied_and_faved():
         db.session.commit()
 
     for i in fave:
-        sqlfaved = f"SELECT user_id FROM faved WHERE user_id={user_id}"
-        result = db.session.execute(sqlfaved, {"user_id": user_id})
-        user = result.fetchone()
-        if not user:
+        sqlfaved = f"SELECT user_id, apartment_id FROM faved WHERE user_id={user_id} AND apartment_id={i}"
+        result = db.session.execute(sqlfaved)
+        user_and_apa = result.fetchone()
+        if not user_and_apa:
             sql_fave = f"INSERT INTO faved (user_id, apartment_id) VALUES ({user_id}, {i})"
             db.session.execute(sql_fave)
             db.session.commit()
@@ -434,7 +434,7 @@ def manipulate_applied_and_faved():
 
     for i in delete_faved:
         if first:
-            sql_del_fav = f"DELETE FROM faved WHERE user_id='{user_id}' and apartment_id={i}"
+            sql_del_fav = f"DELETE FROM faved WHERE user_id={user_id} and apartment_id={i}"
             first = False
             continue
         sql_del_fav += f" OR apartment_id={i}"
@@ -444,10 +444,10 @@ def manipulate_applied_and_faved():
         db.session.commit()
 
     for i in apply:
-        sqlapplied = f"SELECT user_id FROM applied WHERE user_id={user_id}"
-        result = db.session.execute(sqlapplied, {"user_id": user_id})
-        user = result.fetchone()
-        if not user:
+        sqlapplied = f"SELECT user_id, apartment_id FROM applied WHERE user_id={user_id} AND apartment_id={i}"
+        result = db.session.execute(sqlapplied)
+        user_and_apa = result.fetchone()
+        if not user_and_apa:
             sql_app = f"INSERT INTO applied (user_id, apartment_id) VALUES ({user_id}, {i})"
             db.session.execute(sql_app)
             db.session.commit()

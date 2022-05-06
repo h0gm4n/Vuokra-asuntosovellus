@@ -289,19 +289,19 @@ def add_applied_or_fave():
     fave = request.form.getlist("fave")
 
     for i in range(0, len(apply)):
-        sqlapplied = f"SELECT user_id FROM applied WHERE user_id={user_id}"
-        result = db.session.execute(sqlapplied, {"user_id": user_id})
-        user = result.fetchone()
-        if not user:
+        sqlapplied = f"SELECT user_id, apartment_id FROM applied WHERE user_id={user_id} AND apartment_id={apply[i]}"
+        result = db.session.execute(sqlapplied)
+        user_and_apa = result.fetchone()
+        if not user_and_apa:
             sql = f"INSERT INTO applied (user_id, apartment_id) VALUES ({user_id}, {apply[i]})"
             db.session.execute(sql)
             db.session.commit()
 
     for i in range(0, len(fave)):
-        sqlfaved = f"SELECT user_id FROM faved WHERE user_id={user_id}"
-        result = db.session.execute(sqlfaved, {"user_id": user_id})
-        user = result.fetchone()
-        if not user:
+        sqlfaved = f"SELECT user_id, apartment_id FROM faved WHERE user_id={user_id} and apartment_id={fave[i]}"
+        result = db.session.execute(sqlfaved)
+        user_and_apa = result.fetchone()
+        if not user_and_apa:
             sql = f"INSERT INTO faved (user_id, apartment_id) VALUES ({user_id}, {fave[i]})"
             db.session.execute(sql)
             db.session.commit()
